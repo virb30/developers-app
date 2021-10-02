@@ -38,25 +38,16 @@ RUN pecl install redis
 
 RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
   && docker-php-ext-configure mysqli --with-mysqli=mysqlnd \ 
-  && docker-php-ext-install gd pdo_mysql mbstring zip pcntl \
-  && docker-php-ext-enable redis
+  && docker-php-ext-install gd pdo_mysql mbstring zip pcntl
 
 # instalar composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-# instalar node
-RUN mkdir -p /usr/local/nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
-  && source  ${NVM_DIR}/nvm.sh \
-  && nvm install ${NODE_VERSION} \
-  && nvm alias default ${NODE_VERSION} \
-  && nvm use default
-
-ENV NODE_PATH   ${NVM_DIR}/v${NODE_VERSION}/lib/node_modules
-ENV PATH        ${NVM_DIR}/v${NODE_VERSION}/bin:$PATH
-
 RUN composer global require laravel/installer
+
+COPY ./backend ./
+
+RUN composer install
 
 EXPOSE $PORT
 
