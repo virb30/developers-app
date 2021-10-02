@@ -21,7 +21,6 @@ services:
       - 8000:8000
     volumes:
       - ./backend:/var/www
-    command: sleep infinity
     depends_on: 
       - db
 

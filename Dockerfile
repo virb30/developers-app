@@ -1,5 +1,7 @@
 FROM php:7.4-fpm
 
+WORKDIR /var/www/html
+
 # Install MariaDB client
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y mariadb-client \ 
@@ -13,3 +15,8 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then groupmod --g
 # Install php-mysql driver
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+COPY ./backend ./
+
+RUN composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+CMD ['php', 'artisan', 'serve']
