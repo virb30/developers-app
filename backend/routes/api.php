@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DevelopersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::prefix('/developers')
+    ->name('api.developers')
+    ->group(function () {
+        Route::get('/', [DevelopersController::class, 'index'])->name('.list');
+        Route::get('/{developer}', [DevelopersController::class, 'show'])->name('.show');
+        Route::post('/', [DevelopersController::class, 'store'])->name('.store');
+        Route::put('/{developer}', [DevelopersController::class, 'update'])->name('.update');
+        Route::delete('/{developer}', [DevelopersController::class, 'destroy'])->name('.delete');
+    });
