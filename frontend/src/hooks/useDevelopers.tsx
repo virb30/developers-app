@@ -11,6 +11,29 @@ interface Developer {
   age: number;
 }
 
+interface PageLink {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
+interface DevelopersMeta {
+  current_page: number;
+  last_page: number;
+  total: number;
+  links: PageLink[];
+}
+
+interface DevelopersResponse {
+  data: Developer[],
+  meta: DevelopersMeta
+}
+
+interface LoadDevelopersInput {
+  q?: string;
+  page?: number;
+}
+
 interface DeveloperInput {
   name: string;
   birth_date: string;
@@ -24,9 +47,11 @@ interface DevelopersProviderProps {
 
 interface DevelopersContextData {
   developers: Developer[],
+  developersMeta: DevelopersMeta,
   createDeveloper: (developer: DeveloperInput) => Promise<void>;
   deleteDeveloper: (id: number) => Promise<void>;
   updateDeveloper: (id: number, data: DeveloperInput) => Promise<void>;
+  loadDevelopers: (params: LoadDevelopersInput) => Promise<void>;
 }
 
 
@@ -36,11 +61,17 @@ const DevelopersContext = createContext<DevelopersContextData>(
 
 export function DevelopersProvider({children}: DevelopersProviderProps){
   const [developers, setDevelopers] = useState<Developer[]>([]);
+  const [developersMeta, setDevelopersMeta] = useState<DevelopersMeta>({} as DevelopersMeta);
 
   useEffect(() => {
-    api.get<{data: Developer[]}>('/developers')
-      .then(response => setDevelopers(response.data.data))
+    loadDevelopers({});
   }, []);
+
+  async function loadDevelopers(params: LoadDevelopersInput){
+    const response = await api.get<DevelopersResponse>('/developers', { params });
+    setDevelopers(response.data.data);
+    setDevelopersMeta(response.data.meta)
+  }
 
   async function createDeveloper(developerInput: DeveloperInput) {
     const response = await api.post<DeveloperInput, AxiosResponse<Developer>>('/developers', {...developerInput });
@@ -75,7 +106,7 @@ export function DevelopersProvider({children}: DevelopersProviderProps){
 
 
   return (
-    <DevelopersContext.Provider value={{developers, createDeveloper, deleteDeveloper, updateDeveloper}}>
+    <DevelopersContext.Provider value={{developers, developersMeta, loadDevelopers, createDeveloper, deleteDeveloper, updateDeveloper}}>
       {children}
     </DevelopersContext.Provider>
   )

@@ -15,7 +15,7 @@ a {
   box-sizing: border-box;
 }
 
-button {
+button:not(:disabled) {
   cursor: pointer;
 }
 
@@ -25,6 +25,7 @@ button {
   --red-600: #DC2626;
   --red-700: #B91C1C;
   --yellow-500:#FBBF24;
+  --blue-600: #2563EB;
 }
 
 

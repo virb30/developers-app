@@ -8,11 +8,11 @@ use App\Models\Developer;
 
 final class SearchDevelopersService
 {
-    public function execute(string $search)
+    public function execute(?string $search)
     {
         $developers = Developer::when($search, function ($q, $search) {
             $q->where('name', 'like', '%' . $search . '%');
-        })->paginate(15);
+        })->paginate(1);
 
         if ($developers->isEmpty()) {
             throw new RecordNotFoundException('Developer not found');
