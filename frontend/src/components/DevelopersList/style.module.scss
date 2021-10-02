@@ -1,0 +1,33 @@
+.container {
+  padding: 1rem;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+
+  & td, & th {
+    border: 1px solid var(--gray-300);
+    padding: 0.25rem;
+  }
+}
+
+.newDeveloperButton {
+  font-size: 1rem;
+  border: 0;
+  border-radius: 0.25rem;
+  height: 3rem;
+  padding: 1rem;
+
+  background-color: #374151;
+  color: #fff;
+
+  transition: filter 0.2s;
+
+  &:hover{
+    filter: brightness(0.9);
+  }
+}

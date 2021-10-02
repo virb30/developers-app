@@ -1,0 +1,53 @@
+.developersForm {
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    & + div {
+      margin-top: 1rem;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    input {
+      border-radius: 0.25rem;
+      border: 1px solid var(--gray-300);
+      padding: 0.5rem;
+      width: 100%;
+  
+    }
+
+    select {
+      border-radius: 0.25rem;
+      border: 1px solid var(--gray-300);
+      padding: 0.5rem;
+      width: 100%;
+    }
+  }
+
+  button {
+    margin-top: 2rem;
+    font-size: 1rem;
+    border: 0;
+    border-radius: 0.25rem;
+    height: 3rem;
+    padding: 1rem;
+
+    background-color: #374151;
+    color: #fff;
+
+    transition: filter 0.2s;
+
+    &:hover{
+      filter: brightness(0.9);
+    }
+
+    &:disabled {
+      filter: brightness(0.6);
+    }
+  }
+}

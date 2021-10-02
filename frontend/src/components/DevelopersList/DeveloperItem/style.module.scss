@@ -1,0 +1,48 @@
+.item {
+  justify-content: space-between;
+  padding: 8px 4px;
+  align-items: center;
+
+  span {
+    & + span {
+      padding-left: 1rem;
+      border-left: 1px solid var(--gray-300);
+      margin-left: 1rem;
+    }
+  }
+
+  button {
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+
+
+    & + button {
+      margin-left: 0.5rem;
+    }
+    transition: filter 0.2s;
+
+    &:hover {
+      filter: brightness(0.8);
+    }
+  }
+
+}
+
+.btnDanger {
+  background-color: var(--red-600);
+  color: white;
+
+  &:disabled {
+    filter: brightness(0.6);
+  }
+}
+
+.btnWarning{
+  background-color: var(--yellow-500);
+  color: black;
+
+  &:disabled {
+    filter: brightness(0.6);
+  }
+}

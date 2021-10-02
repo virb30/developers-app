@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  # frontend:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile.front
+  #   volumes:
+  #     - ./frontend:/app/node
+  #   ports: 
+  #     - 3000:3000
+      
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USER_UID: 1000
+        USER_GID: 1000
+    ports: 
+      - 8000:8000
+    volumes:
+      - ./backend:/var/www
+    command: sleep infinity
+    depends_on: 
+      - db
+
+  db:
+    image: mariadb:10.4
+    restart: unless-stopped
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb
+      MYSQL_DATABASE: mariadb
+      MYSQL_USER: mariadb
+      MYSQL_PASSWORD: mariadb
+    ports:
+      - 3306:3306
+
+
+volumes:
+  mariadb-data:
