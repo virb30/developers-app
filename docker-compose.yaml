@@ -2,41 +2,56 @@ version: "3.7"
 
 services:
   frontend:
+    container_name: developers-app
     build: 
       context: .
       dockerfile: Dockerfile.front
-    volumes:
-      - ./frontend:/app/node
     ports: 
       - 3000:3000
+    networks:
+      - api_network
       
   backend:
+    container_name: developers-api
     build:
       context: .
       dockerfile: Dockerfile
       args:
         USER_UID: 1000
         USER_GID: 1000
+    environment:
+      DB_HOST: db
+      DB_CONNECTION: mysql
+      DB_PORT: 3306
+      DB_DATABASE: app
+      DB_USERNAME: root
+      DB_PASSWORD: mariadb
     ports: 
       - 8000:8000
-    volumes:
-      - ./backend:/var/www
     depends_on: 
       - db
-
+    networks:
+      - api_network
+    
   db:
     image: mariadb:10.4
     restart: unless-stopped
-    volumes:
-      - mariadb-data:/var/lib/mysql
+    container_name: developers-db
     environment:
       MYSQL_ROOT_PASSWORD: mariadb
-      MYSQL_DATABASE: mariadb
+      MYSQL_DATABASE: app
       MYSQL_USER: mariadb
       MYSQL_PASSWORD: mariadb
     ports:
       - 3306:3306
+    networks:
+      - api_network
 
 
 volumes:
   mariadb-data:
+
+
+networks:
+  api_network: 
+    driver: bridge

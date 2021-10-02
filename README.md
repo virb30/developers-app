@@ -21,6 +21,25 @@ cd developers-app
 docker-compose up -d --build
 ```
 
+## endereços da API
+
+A API é exposta no endereço http://localhost:8000/api
+
+O endpoint utilizado é `developers`
+
+Exemplo:
+
+```console
+Listar todos os desenvolvedores:
+
+GET http://localhost:8000/api/developers
+```
+
+## Aplicação
+
+A aplicação pode ser acessada através do endereço `http://localhost:3000`
+
+
 ### Melhorias
 
 * Como proposta de melhorias estão: aplicar conceitos de Clean Architecture;

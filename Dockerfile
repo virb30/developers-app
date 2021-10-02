@@ -1,4 +1,6 @@
-FROM php:7.4-fpm
+FROM php:7.4-cli
+
+WORKDIR /var/www
 
 #instalar dependências
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
@@ -49,6 +51,8 @@ COPY ./backend ./
 
 RUN composer install
 
+COPY ./.docker/entrypoint-back.sh /usr/bin/entrypoint-back.sh
+
 EXPOSE $PORT
 
-CMD ['php', 'artisan', 'serve']
+CMD ["/usr/bin/entrypoint-back.sh"]
